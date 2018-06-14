@@ -2,7 +2,7 @@
 > Count to infinity and beyond (well, close enough at least)
 
 ## Description
-SkyCount is a simple component that takes any string containing numbers, such as `"1.234.000"` or `"23.5%"`, and animates a counter from 0 to the given value while retaining all non-digit characters. This has the great side effect of enables you to easily control the way numbers are chunked (English style `"000,000.00"` vs German etc. `"000.000,00"`) or append or prepend text to the counted number.
+SkyCount is a simple component that takes any string containing numbers, such as `"1.234.000"` or `"23.5%"`, and animates a counter from 0 to the given value while retaining all non-digit characters. This enables you to easily append or prepend text and symbols to the counted number or control the way numbers are chunked (English style `"000,000.00"` vs German etc. `"000.000,00"`).
 
 ## Installation
 ```bash
