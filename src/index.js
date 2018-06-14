@@ -1,6 +1,17 @@
-import Vue from 'vue';
 import SkyCount from './SkyCount.vue';
 
-Vue.component('SkyCount', SkyCount);
+const defaults = {
+	registerComponents: true,
+};
 
-export default SkyCount;
+export { SkyCount };
+
+export default {
+	install(Vue, options) {
+		const { registerComponents } = Object.assign({}, defaults, options);
+
+		if (registerComponents) {
+			Vue.component(SkyCount.name, SkyCount);
+		}
+	},
+};

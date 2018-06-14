@@ -7,6 +7,7 @@ function pad(n, width, z = 0) {
 }
 
 export default {
+	name: 'SkyCount',
 	props: {
 		trigger: {
 			type: Boolean,
