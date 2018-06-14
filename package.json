@@ -1,6 +1,6 @@
 {
   "name": "sky-count",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Vue component for intelligently animating counting of numbers",
   "main": "dist/skycount.min.js",
   "scripts": {
