@@ -1,48 +1,83 @@
-# sky-reveal
-> Simple js module that collapses content
+# sky-count
+> Count to infinity and beyond (well, close enough at least)
 
-## Dependencies
-- [animeJs](https://github.com/juliangarnier/anime)
-- [Sky-window](https://github.com/skybrud/sky-window)
+## Description
+SkyCount is a simple component that takes any string containing numbers, such as `"1.234.000"` or `"23.5%"`, and animates a counter from 0 to the given value while retaining all non-digit characters. This has the great side effect of enables you to easily control the way numbers are chunked (English style `"000,000.00"` vs German etc. `"000.000,00"`) or append or prepend text to the counted number.
+
+## Installation
+```bash
+npm install sky-count
+```
+or
+```bash
+yarn add sky-count
+```
 
 ## Usage
-There are two ways to use `sky-reveal`. The first one is as a stand-alone module where you provide a toggle button (`sky-reveal-trigger`) for the content to be revealed.
-Here you need to to use the attribute `reveal-id` with the same value on both `sky-reveal` and `sky-reveal-trigger`
-``` html
- <sky-reveal reveal-id="asd">
-    <p>
-    Ullamco enim eiusmod nisi exercitation occaecat do culpa. Elit dolore nulla aliqua sunt. Ex id eu ea et quis ex pariatur veniam mollit amet laborum. Magna elit aute non est. Ullamco enim eiusmod nisi exercitation occaecat do culpa. Elit dolore nulla aliqua sunt. Ex id eu ea et quis ex pariatur veniam mollit amet laborum. Magna elit aute non est.
-    </p>
-</sky-reveal>
+Begin by importing and installing the SkyCount Vue plugin:
+```js
+import Vue from 'vue';
+import SkyCount from 'sky-count';
 
-<sky-reveal-trigger reveal-id="asd">
-	<svg slot="svg-prepend | svg | svg-append"></svg> (optional)
-    <span slot="open">Show more</span>
-    <span slot="closed">Show less</span>
-</sky-reveal-trigger>
+Vue.use(SkyCount);
+
+```
+The `<sky-count>` component registers globally and can now be used. It's primary interface is the `trigger` prop, which it watches. When it is true, it counts upwards towards the value of the `to` prop (retaining its non-digit characters while animating).
+
+Basic example:
+``` html
+<sky-count
+    :trigger="myBooleanValue" // triggers the animation when true
+    :to="'1,234,000 users'" // this is our target
+/>
 ```
 
-The other way to use `sky-reveal` is as a sub component which are provided with a bool in the `open` attribute like this. This will open / close `sky-reveal`
+The number kan also be padded with zeros, so the string length is kept the same throughout the animation. This will make the animation look less "jittery" but might not always be what you're going for.
 ``` html
-<sky-reveal :open="true | false">
-    <p>
-    Ullamco enim eiusmod nisi exercitation occaecat do culpa. Elit dolore nulla aliqua sunt. Ex id eu ea et quis ex pariatur veniam mollit amet laborum. Magna elit aute non est. Ullamco enim eiusmod nisi exercitation occaecat do culpa. Elit dolore nulla aliqua sunt. Ex id eu ea et quis ex pariatur veniam mollit amet laborum. Magna elit aute non est.
-    </p>
-</sky-reveal>
+<sky-count
+    :trigger="myBooleanValue"
+    :to="'1,234,000 users'"
+    :pad="true" // pad with zeros
+/>
 ```
 
-By default `sky-reveal` animates with a duration om 500ms. You can change this via the `duration` attribute.
+If you want to pad the number with something else than zeros you can do so like this:
 ``` html
-<sky-reveal :open="true | false" :duration="750">
-    ...
-</sky-reveal>
+<sky-count
+    :trigger="myBooleanValue"
+    :to="'1,234,000 users'"
+    :pad="'-'" // we now pad with dashes instead
+/>
 ```
 
-## How it works
-`Sky-reveal` uses animeJs as animation engine which handles initial state and animations from and to height. If the animation is to open `sky-reveal` it calculate auto height in pixel and animate towards this value and on completion set `height: auto` which will make the container responsive.
-if closing it will use the computed property `min-height` on `.sky-reveal`.
-`Sky-window` handles resize listening by using RxJS and will on resize end update and recalculate animeJs instances.
+If you want to start the animation from another value than zero this is also possible:
+``` html
+<sky-count
+    :trigger="myBooleanValue"
+    :to="'1,234,000 users'"
+    :start="1000" // the animation starts at "1,000"
+/>
+```
 
+The animation can also be customized:
+``` html
+<sky-count
+    :trigger="myBooleanValue"
+    :to="'1,234,000 users'"
+    :delay="200" // 200ms
+    :duration="500" // 500ms
+    :ease="'easeInOutCubic'" // 'easeInOutSine', 'easeOutExpo', 'easeInQuad', 'linear' etc.
+/>
+```
+
+Lastly, you can make the number continue slowly incrementing after the animation is done (A simple setInterval under the hood for now).
+``` html
+<sky-count
+    :trigger="myBooleanValue"
+    :to="'1,234,000 users'"
+    :keepCounting="{ delay: 2000, add: 10 }" // when the animation is done the number is incremented by 10 every 2000ms
+/>
+```
 
 # Credits
 This module is made by the Frontenders at [skybrud.dk](http://www.skybrud.dk/). Feel free to use it in any way you want. Feedback, questions and bugreports should be posted as issues. Pull-requests appreciated!
