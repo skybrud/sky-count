@@ -93,6 +93,11 @@ export default {
 			}
 		},
 	},
+	mounted() {
+		if (this.trigger) {
+			this.count();
+		}
+	},
 	methods: {
 		count() {
 			anime({
